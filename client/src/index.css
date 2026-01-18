@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Deep space background */
+  --background: 240 10% 4%; 
+  --foreground: 0 0% 100%;
+
+  /* Neon Green Primary */
+  --primary: 111 100% 54%;
+  --primary-foreground: 240 10% 4%;
+
+  /* Neon Purple Secondary */
+  --secondary: 286 100% 50%;
+  --secondary-foreground: 0 0% 100%;
+
+  /* Glassmorphism Muted */
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 65%;
+
+  /* Accents */
+  --accent: 286 100% 50%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 240 10% 15%;
+  --input: 240 10% 15%;
+  --ring: 111 100% 54%;
+
+  --radius: 1rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased font-body overflow-x-hidden selection:bg-primary/30 selection:text-primary;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-wide;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px hsla(var(--primary), 0.5), 0 0 20px hsla(var(--primary), 0.3);
+  }
+  
+  .text-glow-purple {
+    text-shadow: 0 0 10px hsla(var(--secondary), 0.5), 0 0 20px hsla(var(--secondary), 0.3);
+  }
+  
+  .box-glow {
+    box-shadow: 0 0 20px -5px hsla(var(--primary), 0.3);
+  }
+
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  .neon-border {
+    @apply border border-primary/50 shadow-[0_0_15px_rgba(57,255,20,0.3)];
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-primary/50 transition-colors;
+}
