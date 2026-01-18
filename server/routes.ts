@@ -30,5 +30,20 @@ export async function registerRoutes(
     }
   });
 
+// GET route for handling referral code
+app.get('/register/', (req, res) => {
+  const refCode = req.query.ref_code;
+
+  if (refCode) {
+    // Redirect to rat://signup with the same referral code
+    res.redirect(`rat://signup?refercode=${refCode}`);
+  } else {
+    // If no referral code, you can redirect elsewhere or show a message
+    res.send('No referral code provided.');
+  }
+});
+
+
+
   return httpServer;
 }
