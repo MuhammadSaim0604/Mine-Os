@@ -67,16 +67,54 @@ export default function Home() {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-            <a href="#features" className="hover:text-white transition-colors">
+            <a onClick={
+              () => {
+                  const el = document.getElementById("features");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                    try {
+                      window.history.replaceState(null, "", "#features");
+                    } catch {}
+                  } else {
+                    window.location.hash = "#features";
+                  }
+                }
+            }
+            className="hover:text-white transition-colors">
               Features
             </a>
             <a
-              href="#how-it-works"
+              onClick={
+              () => {
+                  const el = document.getElementById("tutorial");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                    try {
+                      window.history.replaceState(null, "", "#tutorial");
+                    } catch {}
+                  } else {
+                    window.location.hash = "#tutorial";
+                  }
+                }
+            } 
               className="hover:text-white transition-colors"
             >
               How it Works
             </a>
-            <a href="#stats" className="hover:text-white transition-colors">
+            <a onClick={
+              () => {
+                  const el = document.getElementById("stats");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                    try {
+                      window.history.replaceState(null, "", "#stats");
+                    } catch {}
+                  } else {
+                    window.location.hash = "#stats";
+                  }
+                }
+            } 
+            className="hover:text-white transition-colors">
               Stats
             </a>
           </div>
@@ -119,28 +157,65 @@ export default function Home() {
               hardware. No technical knowledge. Just pure, passive income.
             </p>
 
-            <div
-              className="flex flex-col sm:flex-row gap-4"
-              onClick={handleDownload}
-            >
-              <NeonButton className="w-full sm:w-auto gap-2">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <NeonButton
+                className="w-full sm:w-auto gap-2"
+                onClick={handleDownload}
+              >
                 <Download className="w-5 h-5" />
                 Download APK
               </NeonButton>
-              <NeonButton variant="outline" className="w-full sm:w-auto gap-2">
+              <NeonButton
+                variant="outline"
+                className="w-full sm:w-auto gap-2"
+                onClick={() => {
+                  const el = document.getElementById("tutorial");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                    try {
+                      window.history.replaceState(null, "", "#tutorial");
+                    } catch {}
+                  } else {
+                    window.location.hash = "#tutorial";
+                  }
+                }}
+              >
                 <Globe className="w-5 h-5" />
-                View Explorer
+                View Tutorial
               </NeonButton>
             </div>
 
             <div className="mt-12 flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
+                {[
+                  { name: "Alice", src: "/1.jpg" },
+                  { name: "Ben", src: "/2.jpg" },
+                  { name: "Carlos", src: "/3.jpg" },
+                  { name: "Dana", src: "/4.jpg" },
+                ].map((p, idx) => (
                   <div
-                    key={i}
-                    className="w-10 h-10 rounded-full border-2 border-background bg-zinc-800 flex items-center justify-center text-xs font-bold text-white"
+                    key={p.name + idx}
+                    className="w-10 h-10 rounded-full border-2 border-background bg-zinc-800 flex items-center justify-center text-xs font-bold text-white overflow-hidden relative"
+                    aria-hidden={false}
+                    title={p.name}
                   >
-                    {String.fromCharCode(64 + i)}
+                    {/* Fallback initials behind image */}
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      {p.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)}
+                    </span>
+                    <img
+                      src={p.src}
+                      alt={p.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => {
+                        // hide broken image so initials remain visible
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
                   </div>
                 ))}
               </div>
@@ -346,6 +421,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Tutorial Section */}
+      <section id="tutorial" className="py-24 px-4 relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-5xl font-bold mb-2">TUTORIAL</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Learn how to set up and use MineOS with our step-by-step video
+              tutorial.
+            </p>
+          </div>
+
+          <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+            <video
+              controls
+              className="absolute inset-0 w-full h-full rounded-xl bg-black"
+            >
+              <source src="/tutorial.mp4" type="video/mp4" />
+              Your browser does not support the video tag.{' '}
+              <a
+                href="https://youtu.be/etluT8UC-nw?si=qmXqSYlL2hnULDUk"
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary underline"
+              >
+                Watch on YouTube
+              </a>
+            </video>
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter / CTA */}
       <section className="py-24 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/5"></div>
@@ -412,7 +518,7 @@ export default function Home() {
           </div>
 
           <div className="text-sm text-muted-foreground">
-            © 2024 MineOS Inc.
+            © 2026 MineOS Inc.
           </div>
         </div>
       </footer>
